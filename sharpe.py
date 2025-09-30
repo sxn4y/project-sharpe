@@ -5,7 +5,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 
-# ANSI Colors for CLI output
+# CLI COLORS
 RESET = "\033[0m"
 BOLD = "\033[1m"
 GREEN = "\033[92m"
@@ -16,7 +16,7 @@ CYAN = "\033[96m"
 
 isRunning = True
 
-# Default tickers
+# default tickers
 tickers = ["AAPL", "MSFT", "GOOG", "AMZN"]
 
 while isRunning:
@@ -37,7 +37,7 @@ while isRunning:
         print(f"{GREEN}✅ Using default tickers: {tickers}{RESET}")
 
     # -----------------------
-    # 1. Fetch Price Data
+    # 1 - fetch price data
     # -----------------------
     def fetch_yahoo_data(tickers, period="2y"):
         print(f"{BLUE}⬇️  Fetching price data for: {tickers}...{RESET}")
@@ -46,7 +46,7 @@ while isRunning:
         return data.dropna()
 
     # -----------------------
-    # 2. Portfolio Metrics
+    # 2 - portfolio metrics
     # -----------------------
     def compute_portfolio_stats(weights, mean_returns, cov_matrix, risk_free_rate=0.02):
         weights = np.array(weights)
@@ -56,7 +56,7 @@ while isRunning:
         return port_return, port_vol, sharpe
 
     # -----------------------
-    # 3. Random Portfolios
+    # 3 - Random Portfolios
     # -----------------------
     def simulate_random_portfolios(n_portfolios, mean_returns, cov_matrix, risk_free_rate):
         results = []
@@ -77,7 +77,7 @@ while isRunning:
         return df
 
     # -----------------------
-    # 4. Efficient Frontier
+    # 4 - efficient frontier
     # -----------------------
     def efficient_frontier(mean_returns, cov_matrix, target_returns):
         frontier_vols = []
@@ -95,7 +95,7 @@ while isRunning:
         return frontier_vols
 
     # -----------------------
-    # 5. Max Sharpe Portfolio
+    # 5 - Max Sharpe Portfolio
     # -----------------------
     def max_sharpe_portfolio(mean_returns, cov_matrix, risk_free_rate):
         n = len(mean_returns)
@@ -106,7 +106,7 @@ while isRunning:
         return minimize(neg_sharpe, n*[1./n], bounds=bounds, constraints=constraints)
 
     # -----------------------
-    # 6. Plot Function
+    # 6. plot function
     # -----------------------
     def plot_results(results_df, frontier_returns, frontier_vols, best_portfolio, tickers):
         plt.figure(figsize=(8, 7))
@@ -122,7 +122,7 @@ while isRunning:
         plt.scatter(best_portfolio["volatility"], best_portfolio["return"],
                     marker="*", color="red", s=300, label="Max Sharpe Portfolio")
 
-        # Annotate the star point
+        # annotate the star point
         plt.annotate(f"★ Max Sharpe\nRatio={best_portfolio['sharpe']:.2f}",
                     xy=(best_portfolio["volatility"], best_portfolio["return"]),
                     xytext=(best_portfolio["volatility"] + 0.02, best_portfolio["return"] - 0.02),
@@ -149,7 +149,7 @@ while isRunning:
         plt.show()
 
     # -----------------------
-    # Main Execution
+    #  Main Model
     # -----------------------
     if __name__ == "__main__":
         risk_free_rate = 0.05
@@ -158,7 +158,7 @@ while isRunning:
         mean_returns = log_returns.mean() * 252
         cov_matrix = log_returns.cov() * 252
 
-        results_df = simulate_random_portfolios(5000, mean_returns, cov_matrix, risk_free_rate)
+        results_df = simulate_random_portfolios(10000, mean_returns, cov_matrix, risk_free_rate)
 
         print(f"{BLUE}🔎 Finding max Sharpe ratio portfolio...{RESET}")
         max_sharpe = max_sharpe_portfolio(mean_returns, cov_matrix, risk_free_rate)
