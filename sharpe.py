@@ -36,18 +36,16 @@ while isRunning:
     else:
         print(f"{GREEN}✅ Using default tickers: {tickers}{RESET}")
 
-    # -----------------------
     # 1 - fetch price data
-    # -----------------------
+    
     def fetch_yahoo_data(tickers, period="2y"):
         print(f"{BLUE}⬇️  Fetching price data for: {tickers}...{RESET}")
         data = yf.download(tickers, period=period, auto_adjust=True)["Close"]
         print(f"{GREEN}✅ Data fetch complete. {len(data)} records loaded.{RESET}")
         return data.dropna()
 
-    # -----------------------
     # 2 - portfolio metrics
-    # -----------------------
+    
     def compute_portfolio_stats(weights, mean_returns, cov_matrix, risk_free_rate=0.02):
         weights = np.array(weights)
         port_return = np.dot(weights, mean_returns)
@@ -55,9 +53,8 @@ while isRunning:
         sharpe = (port_return - risk_free_rate) / port_vol
         return port_return, port_vol, sharpe
 
-    # -----------------------
     # 3 - Random Portfolios
-    # -----------------------
+    
     def simulate_random_portfolios(n_portfolios, mean_returns, cov_matrix, risk_free_rate):
         results = []
         weight_records = []
@@ -76,9 +73,8 @@ while isRunning:
         df["weights"] = weight_records
         return df
 
-    # -----------------------
     # 4 - efficient frontier
-    # -----------------------
+    
     def efficient_frontier(mean_returns, cov_matrix, target_returns):
         frontier_vols = []
         n = len(mean_returns)
@@ -94,9 +90,8 @@ while isRunning:
             frontier_vols.append(np.sqrt(result.fun) if result.success else np.nan)
         return frontier_vols
 
-    # -----------------------
     # 5 - Max Sharpe Portfolio
-    # -----------------------
+    
     def max_sharpe_portfolio(mean_returns, cov_matrix, risk_free_rate):
         n = len(mean_returns)
         def neg_sharpe(w):
@@ -105,9 +100,8 @@ while isRunning:
         bounds = tuple((0, 1) for _ in range(n))
         return minimize(neg_sharpe, n*[1./n], bounds=bounds, constraints=constraints)
 
-    # -----------------------
     # 6. plot function
-    # -----------------------
+    
     def plot_results(results_df, frontier_returns, frontier_vols, best_portfolio, tickers):
         plt.figure(figsize=(8, 7))
 
@@ -148,9 +142,8 @@ while isRunning:
         plt.tight_layout()
         plt.show()
 
-    # -----------------------
     #  Main Model
-    # -----------------------
+    
     if __name__ == "__main__":
         risk_free_rate = 0.05
         price_data = fetch_yahoo_data(tickers)
