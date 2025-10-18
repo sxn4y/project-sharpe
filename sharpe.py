@@ -17,7 +17,7 @@ CYAN = "\033[96m"
 isRunning = True
 
 # default tickers
-tickers = ["AAPL", "MSFT", "GOOG", "AMZN"]
+tickers = ["AAPL", "NVDA", "TSLA", "BTC", "ETH", "MSFT", "GOOG", "AMZN"]
 
 while isRunning:
     print(f"{CYAN}📊 Create new graph? {RESET}({BOLD}Y/n{RESET}): ", end="")
@@ -151,7 +151,7 @@ while isRunning:
         mean_returns = log_returns.mean() * 252
         cov_matrix = log_returns.cov() * 252
 
-        results_df = simulate_random_portfolios(10000, mean_returns, cov_matrix, risk_free_rate)
+        results_df = simulate_random_portfolios(1000000, mean_returns, cov_matrix, risk_free_rate)
 
         print(f"{BLUE}🔎 Finding max Sharpe ratio portfolio...{RESET}")
         max_sharpe = max_sharpe_portfolio(mean_returns, cov_matrix, risk_free_rate)
