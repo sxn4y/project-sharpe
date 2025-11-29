@@ -17,7 +17,7 @@ CYAN = "\033[96m"
 isRunning = True
 
 # default tickers
-tickers = ["AAPL", "NVDA", "TSLA", "BTC", "ETH", "MSFT", "GOOG", "AMZN"]
+tickers = ["AAPL", "NVDA", "TSLA", "BTC", "ETH", "MSFT", "GOOG", "AMZN", "ECL", "COHR"]
 
 while isRunning:
     print(f"{CYAN}📊 Create new graph? {RESET}({BOLD}Y/n{RESET}): ", end="")
